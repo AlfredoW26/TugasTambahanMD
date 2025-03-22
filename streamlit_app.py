@@ -3,15 +3,44 @@ import pandas as pd
 import numpy as np
 import joblib
 
-def load_model(filename):
-  model = joblib.load(filename)
-  return model
+model = joblib.load('trained_model.pkl')
+loaded_encoder = joblib.load('encoder.pkl')
+loaded_scaler = joblib.load('scaler.pkl')
+
+def input_to_df(input):
+    data = [input]
+    df = pd.DataFrame(data, columns=[
+        'Gender', 'Age', 'Height', 'Weight', 'family_history_with_overweight', 
+        'FAVC', 'FCVC', 'NCP', 'CAEC', 'SMOKE', 'CH2O', 'SCC', 'FAF', 'TUE', 'CALC', 'MTRANS'
+    ])
+    return df
+
+def encode(df):
+    for column in df.columns:
+        if df[column].dtype == "object":
+            df[column] = loaded_encoder.transform(df[column])
+    return df
+
+def normalize(df):
+    df = loaded_scaler.transform(df)
+    return df
+
+def predict_with_model(model, user_input):
+    prediction = model.predict(user_input)
+    return prediction[0]
 
 def main():
   st.title('Machine Learning App')
   st.info('This app will predict your obesity level!')
 
-    # Input data oleh user
+  with st.expander('**Data**'):
+    df = pd.read_csv('https://raw.githubusercontent.com/AlfredoW26/dp-TugasTambahanMD/refs/heads/master/ObesityDataSet_raw_and_data_sinthetic.csv')
+    st.write(df)
+    
+  with st.expander('**Data Visualization**'):
+    st.scatter_chart(data=df, x='Height', y='Weight', color='NObeyesdad')
+     
+  # Input data oleh user
   gender = st.selectbox('Gender', ('Male', 'Female'))
   age = st.slider('Age', min_value=0, max_value=75, value=21)
   height = st.slider('Height', min_value=0.50, max_value=2.00, value=1.62)  
@@ -33,12 +62,24 @@ def main():
   user_input = [gender, age, height, weight, family_history_with_overweight, 
                 FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS]
     
-  # Memuat model
-  model_filename = 'trained_model.skl'
-
-  model = load_model(model_filename)
-  prediction = predict_with_model(model, user_input)
-  st.write('The prediction output is: ', prediction)
+  df_input = input_to_df(user_input)
+    
+  st.write('Data input by user')
+  st.write(df_input)
+    
+  df_input = encode(df_input)    
+  df_input = normalize(df_input)
+  prediction = predict_with_model(model, df_input)
+    
+  prediction_proba = model.predict_proba(df_input)
+  df_prediction_proba = pd.DataFrame(prediction_proba, columns=[
+      'Insufficient Weight', 'Normal Weight', 'Overweight Level I', 
+      'Overweight Level II', 'Obesity Type I', 'Obesity Type II', 'Obesity Type III'
+  ])
+    
+  st.write('Obesity Prediction Probability')
+  st.write(df_prediction_proba)
+  st.write('The predicted output is:', prediction)
 
 if __name__ == "__main__":
   main()
