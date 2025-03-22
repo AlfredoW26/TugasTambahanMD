@@ -4,8 +4,8 @@ import numpy as np
 import joblib
 
 model = joblib.load('trained_model.pkl')
-loaded_encoder = joblib.load('encoder.pkl')
-loaded_scaler = joblib.load('scaler.pkl')
+loaded_encoder = joblib.load('encoding.pkl')
+loaded_scaler = joblib.load('scaling.pkl')
 
 def input_to_df(input):
     data = [input]
