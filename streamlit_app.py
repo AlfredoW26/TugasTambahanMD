@@ -7,4 +7,4 @@ def load_model(filename):
 
 st.title('Machine Learning App')
 
-st.dataframe(load_model)
+model = load_model("model.pkl")
