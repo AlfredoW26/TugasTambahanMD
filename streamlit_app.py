@@ -27,15 +27,13 @@ def main():
   FAF = st.slider('FAF', min_value = 0.00, max_value = 3.00, value = 2.00)
   TUE = st.slider('TUE', min_value = 0.00, max_value = 3.00, value = 2.00)
   CALC = st.selectbox('CALC',('no','Sometimes','Frequently','Always')) 
-  CAEC = st.selectbox('CAEC',('no','Sometimes','Frequently','Always')) 
-
+  MTRANS = st.selectbox('MTRANS',('Automobile','Bike','Motorbike','Public_Transportation','Walking'))
+  NObeyesdad = st.selectbox('NObeyesdad',('Insufficient_Weight', 'Normal_Weight', 'Overweight_Level_I', 'Overweight_Level_II', 'Obesity_Type_I', 'Obesity_Type_II', 'Obesity_Type_III'))
 
 
   
   # Input Data for Program
-  user_input = [erythema, scaling, definite_borders, itching, koebner_phenomenon, polygonal_papules, follicular_papules, oral_mucosal_involvement, knee_and_elbow_involvement, scalp_involvement, family_history, melanin_incontinence, eosinophils_infiltrate, PNL_infiltrate,
-                fibrosis_papillary_dermis, exocytosis, acanthosis, hyperkeratosis, parakeratosis, clubbing_rete_ridges, elongation_rete_ridges, thinning_suprapapillary_epidermis, spongiform_pustule, munro_microabcess, focal_hypergranulosis, disappearance_granular_layer, 
-                vacuolisation_damage_basal_layer, spongiosis, saw_tooth_appearance_retes, follicular_horn_plug, perifollicular_parakeratosis, inflammatory_mononuclear_infiltrate, band_like_infiltrate, age]
+  user_input = [gender, age, height, weight, family_history_with_overweight, FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS, NObeyesdad]
 
   model_filename = 'trained_model.pkl'
   model = load_model(model_filename)
