@@ -30,8 +30,6 @@ def main():
   MTRANS = st.selectbox('MTRANS',('Automobile','Bike','Motorbike','Public_Transportation','Walking'))
   NObeyesdad = st.selectbox('NObeyesdad',('Insufficient_Weight', 'Normal_Weight', 'Overweight_Level_I', 'Overweight_Level_II', 'Obesity_Type_I', 'Obesity_Type_II', 'Obesity_Type_III'))
 
-
-  
   # Input Data for Program
   user_input = [gender, age, height, weight, family_history_with_overweight, FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS, NObeyesdad]
 
