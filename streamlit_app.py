@@ -7,4 +7,4 @@ def load_model(filename):
 
 st.title('Machine Learning App')
 
-st.write('Hello world!')
+st.dataframe(load_model)
