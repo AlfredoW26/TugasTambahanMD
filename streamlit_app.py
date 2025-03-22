@@ -34,7 +34,7 @@ def main():
                 FAVC, FCVC, NCP, CAEC, SMOKE, CH2O, SCC, FAF, TUE, CALC, MTRANS]
     
   # Memuat model
-  model_filename = 'trained_model.pkl'
+  model_filename = 'trained_model.skl'
 
   model = load_model(model_filename)
   prediction = predict_with_model(model, user_input)
