@@ -5,6 +5,6 @@ def load_model(filename):
   model = joblib.load(filename)
   return model
 
-st.title('🎈 App Name')
+st.title('Machine Learning App')
 
 st.write('Hello world!')
