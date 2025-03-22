@@ -34,7 +34,7 @@ def main():
   st.info('This app will predict your obesity level!')
 
   with st.expander('**Data**'):
-    df = pd.read_csv('https://raw.githubusercontent.com/AlfredoW26/dp-TugasTambahanMD/refs/heads/master/ObesityDataSet_raw_and_data_sinthetic.csv')
+    df = pd.read_csv('ObesityDataSet_raw_and_data_sinthetic.csv')
     st.write(df)
     
   with st.expander('**Data Visualization**'):
