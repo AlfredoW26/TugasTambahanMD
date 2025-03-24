@@ -22,8 +22,8 @@ def encode(df):
     
 def normalize(df):
     df = df.astype(float)
-    df_scaled = loaded_scaler.transform(df[loaded_scaler.feature_names_in_])
-    return pd.DataFrame(df_scaled, columns=loaded_scaler.feature_names_in_)
+    df_scaled = loaded_scaler.transform(df)
+    return pd.DataFrame(df_scaled, columns=df.columns)
 
 def main():
     st.title('Machine Learning App')
@@ -61,16 +61,18 @@ def main():
     st.write('Data input by user')
     st.write(df_input)
 
+    # Preprocessing
     df_input = encode(df_input)
     df_input = normalize(df_input)
     
-    # Ensure columns match exactly what the model expects
-    df_input = df_input.reindex(columns=model.feature_names_in_, fill_value=0)
+    try:
+        feature_names = model.feature_names_in_
+    except AttributeError:
+        feature_names = df_input.columns
+    
+    df_input = df_input[feature_names]
     
     prediction = model.predict(df_input)[0]
-    st.write('Expected Features:', model.feature_names_in_)
-    st.write('Input Features:', df_input.columns.tolist())
-
     prediction_proba = model.predict_proba(df_input)
 
     df_prediction_proba = pd.DataFrame(prediction_proba, columns=[
