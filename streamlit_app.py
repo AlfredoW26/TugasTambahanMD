@@ -27,7 +27,7 @@ def normalize(df):
     return pd.DataFrame(df, columns=loaded_scaler.feature_names_in_)
 
 def predict_with_model(model, user_input):
-    user_input = user_input[model.feature_names_in_]  
+    user_input = user_input.loc[:, model.feature_names_in_]
     prediction = model.predict(user_input.to_numpy())
     return prediction[0]
 
