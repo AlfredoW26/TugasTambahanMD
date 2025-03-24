@@ -25,11 +25,6 @@ def normalize(df):
     df_scaled = loaded_scaler.transform(df[loaded_scaler.feature_names_in_])
     return pd.DataFrame(df_scaled, columns=loaded_scaler.feature_names_in_)
 
-def predict_with_model(model, user_input): 
-    user_input = user_input.reindex(columns=model.feature_names_in_, fill_value=0)
-    prediction = model.predict(user_input.to_numpy()) 
-    return prediction[0]
-
 def main():
     st.title('Machine Learning App')
     st.info('This app will predict your obesity level!')
@@ -68,10 +63,13 @@ def main():
 
     df_input = encode(df_input)
     df_input = normalize(df_input)
+    
+    # Reindex kolom sesuai dengan yang diharapkan model
+    df_input = df_input.reindex(columns=model.feature_names_in_, fill_value=0)
 
-    prediction = predict_with_model(model, df_input)
-
+    prediction = model.predict(df_input)[0]
     prediction_proba = model.predict_proba(df_input)
+
     df_prediction_proba = pd.DataFrame(prediction_proba, columns=[
         'Insufficient Weight', 'Normal Weight', 'Overweight Level I', 
         'Overweight Level II', 'Obesity Type I', 'Obesity Type II', 'Obesity Type III'
