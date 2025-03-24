@@ -14,6 +14,7 @@ def input_to_df(input):
         'FAVC', 'FCVC', 'NCP', 'CAEC', 'SMOKE', 'CH2O', 'SCC', 'FAF', 'TUE', 'CALC', 'MTRANS'
     ])
     return df
+    
 def predict_with_model(model, user_input):
     mapping = {
         'Male': 0, 'Female': 1,
@@ -34,10 +35,6 @@ def predict_with_model(model, user_input):
 def normalize(df):
     df = loaded_scaler.transform(df)
     return df
-
-def predict_with_model(model, user_input):
-    prediction = model.predict(user_input)
-    return prediction[0]
 
 def main():
   st.title('Machine Learning App')
