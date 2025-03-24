@@ -16,10 +16,11 @@ def input_to_df(input):
     return df
     
 def encode(df):
-  for column in df.columns:
-    if df[column].dtype == "object":
-      df[column] = loaded_encoder.fit_transform(df[column])
-  return df
+    for column in df.columns:
+        if column in loaded_encoder:
+            df[column] = loaded_encoder[column].transform(df[column])
+    return df
+
 
 def normalize(df):
     df = loaded_scaler.transform(df)
