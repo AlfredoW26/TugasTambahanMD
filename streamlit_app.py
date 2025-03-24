@@ -22,33 +22,13 @@ def encode(df):
 
 def normalize(df):
     df = df.astype(float)
-    # Pastikan hanya kolom yang ada di scaler yang diproses
-    scaler_features = loaded_scaler.feature_names_in_
-    missing_features = [f for f in scaler_features if f not in df.columns]
-    extra_features = [f for f in df.columns if f not in scaler_features]
-    
-    if missing_features:
-        st.error(f"Missing features in input: {missing_features}")
-        for f in missing_features:
-            df[f] = 0  # Isi dengan nilai default
-    
-    if extra_features:
-        df = df[scaler_features]  # Hanya ambil kolom yang diperlukan
-    
-    df_scaled = loaded_scaler.transform(df)
-    return pd.DataFrame(df_scaled, columns=scaler_features)
+    df_scaled = loaded_scaler.transform(df[loaded_scaler.feature_names_in_])
+    return pd.DataFrame(df_scaled, columns=loaded_scaler.feature_names_in_)
 
-def predict_with_model(model, user_input):
-    # Pastikan urutan kolom sesuai dengan model
-    try:
-        user_input = user_input[model.feature_names_in_]
-    except KeyError as e:
-        st.error(f"Feature mismatch. Missing: {e}")
-        st.error(f"Model expects: {model.feature_names_in_}")
-        st.error(f"Input has: {user_input.columns}")
-        raise
-    
-    return model.predict(user_input)[0]
+def predict_with_model(model, user_input): 
+    user_input = user_input.reindex(columns=model.feature_names_in_, fill_value=0)
+    prediction = model.predict(user_input.to_numpy()) 
+    return prediction[0]
 
 def main():
     st.title('Machine Learning App')
