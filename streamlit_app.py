@@ -19,7 +19,7 @@ def encode(df):
         if column in loaded_encoder:
             df[column] = loaded_encoder[column].transform(df[column])
     return df
-
+    
 def normalize(df):
     df = df.astype(float)
     df_scaled = loaded_scaler.transform(df[loaded_scaler.feature_names_in_])
@@ -64,9 +64,9 @@ def main():
     df_input = encode(df_input)
     df_input = normalize(df_input)
     
-    # Reindex kolom sesuai dengan yang diharapkan model
+    # Ensure columns match exactly what the model expects
     df_input = df_input.reindex(columns=model.feature_names_in_, fill_value=0)
-
+    
     prediction = model.predict(df_input)[0]
     prediction_proba = model.predict_proba(df_input)
 
