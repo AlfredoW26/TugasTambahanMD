@@ -68,6 +68,9 @@ def main():
     df_input = df_input.reindex(columns=model.feature_names_in_, fill_value=0)
     
     prediction = model.predict(df_input)[0]
+    st.write('Expected Features:', model.feature_names_in_)
+    st.write('Input Features:', df_input.columns.tolist())
+
     prediction_proba = model.predict_proba(df_input)
 
     df_prediction_proba = pd.DataFrame(prediction_proba, columns=[
