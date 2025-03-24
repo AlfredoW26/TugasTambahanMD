@@ -16,9 +16,11 @@ def input_to_df(input):
     return df
     
 def encode(df):
-    for column in df.columns:
-        if df[column].dtype == "object":
-            df[column] = loaded_encoder.transform(df[column])
+    for column in df.select_dtypes(include=['object']).columns:
+        if column in loaded_encoders:
+            le = loaded_encoders[column]
+            # Pastikan semua data yang dikodekan sudah dikenali oleh encoder
+            df[column] = df[column].apply(lambda x: le.transform([x])[0] if x in le.classes_ else -1)
     return df
 
 def normalize(df):
