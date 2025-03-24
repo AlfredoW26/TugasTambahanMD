@@ -22,12 +22,11 @@ def encode(df):
 
 def normalize(df):
     df = df.astype(float)
-    df = df[loaded_scaler.feature_names_in_]
-    df = loaded_scaler.transform(df)
-    return pd.DataFrame(df, columns=loaded_scaler.feature_names_in_)
+    df_scaled = loaded_scaler.transform(df[loaded_scaler.feature_names_in_])
+    return pd.DataFrame(df_scaled, columns=loaded_scaler.feature_names_in_)
 
 def predict_with_model(model, user_input): 
-    user_input = user_input[model.feature_names_in_]
+    user_input = user_input.reindex(columns=model.feature_names_in_, fill_value=0)
     prediction = model.predict(user_input.to_numpy()) 
     return prediction[0]
 
