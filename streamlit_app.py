@@ -15,22 +15,11 @@ def input_to_df(input):
     ])
     return df
     
-def predict_with_model(model, user_input):
-    mapping = {
-        'Male': 0, 'Female': 1,
-        'yes': 1, 'no': 0,
-        'no': 0, 'Sometimes': 1, 'Frequently': 2, 'Always': 3,
-        'Automobile': 0, 'Bike': 1, 'Motorbike': 2, 'Public_Transportation': 3, 'Walking': 4
-    }
-    
-    user_input = [mapping.get(value, value) for value in user_input]
-
-    input_df = pd.DataFrame([user_input], columns=[
-        'Gender', 'Age', 'Height', 'Weight', 'Family_History_With_Overweight',
-        'FAVC', 'FCVC', 'NCP', 'CAEC', 'SMOKE', 'CH2O', 'SCC', 'FAF', 'TUE', 'CALC', 'MTRANS'
-    ])
-    
-    return model.predict(input_df)[0]
+def encode(df):
+    for column in df.columns:
+        if df[column].dtype == "object":
+            df[column] = loaded_encoder.transform(df[column])
+    return df
 
 def normalize(df):
     df = loaded_scaler.transform(df)
