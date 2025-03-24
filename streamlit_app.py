@@ -21,10 +21,11 @@ def encode(df):
             df[column] = loaded_encoder[column].transform(df[column])
     return df
 
-
 def normalize(df):
+    df = df.astype(float)
+    df = df[loaded_scaler.feature_names_in_]
     df = loaded_scaler.transform(df)
-    return df
+    return pd.DataFrame(df, columns=loaded_scaler.feature_names_in_)
 
 def predict_with_model(model, user_input):
     prediction = model.predict(user_input)
