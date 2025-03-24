@@ -36,6 +36,10 @@ def normalize(df):
     df = loaded_scaler.transform(df)
     return df
 
+def predict_with_model(model, user_input):
+    prediction = model.predict(user_input)
+    return prediction[0]
+
 def main():
   st.title('Machine Learning App')
   st.info('This app will predict your obesity level!')
