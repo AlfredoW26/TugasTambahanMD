@@ -27,15 +27,7 @@ def normalize(df):
     return pd.DataFrame(df, columns=loaded_scaler.feature_names_in_)
 
 def predict_with_model(model, user_input):
-    missing_features = set(model.feature_names_in_) - set(user_input.columns)
-    extra_features = set(user_input.columns) - set(model.feature_names_in_)
-
-    if missing_features:
-        st.error(f"Missing features: {missing_features}")
-    if extra_features:
-        st.warning(f"Extra features found and will be removed: {extra_features}")
-
-    user_input = user_input.reindex(columns=model.feature_names_in_, fill_value=0)
+    user_input = user_input[model.feature_names_in_]  
     prediction = model.predict(user_input.to_numpy())
     return prediction[0]
 
