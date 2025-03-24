@@ -17,11 +17,10 @@ def input_to_df(input):
     
 
 def encode(df):
-    for column in df.select_dtypes(include=['object']).columns:
-        if column in loaded_encoders:
-            le = loaded_encoders[column]
-            df[column] = df[column].apply(lambda x: le.transform([x])[0] if x in le.classes_ else -1)
-    return df
+  for column in df.columns:
+    if df[column].dtype == "object":
+      df[column] = loaded_encoder.fit_transform(df[column])
+  return df
 
 def normalize(df):
     df = loaded_scaler.transform(df)
