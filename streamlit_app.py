@@ -15,7 +15,6 @@ def input_to_df(input):
     ])
     return df
     
-
 def encode(df):
   for column in df.columns:
     if df[column].dtype == "object":
@@ -68,7 +67,6 @@ def main():
   st.write('Data input by user')
   st.write(df_input)
     
-  df_input = encode(df_input)    
   df_input = normalize(df_input)
   prediction = predict_with_model(model, df_input)
     
